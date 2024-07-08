@@ -24,16 +24,16 @@ contract BuyCoffee {
     );
 
     // State variables
-    address payable owner;
-    Memo[] public memos;
+    address payable immutable i_owner;
+    Memo[] public s_memos;
 
     constructor() {
-        owner = payable(msg.sender);
+        i_owner = payable(msg.sender);
     }
 
     // Modifiers
     modifier onlyOwner() {
-        if (msg.sender == owner) revert BuyCoffee__NotOwner();
+        if (msg.sender == i_owner) revert BuyCoffee__NotOwner();
         _;
     }
 
@@ -50,7 +50,7 @@ contract BuyCoffee {
             revert BuyCoffee__NotEnoughMoneyTBuyCoffee();
         }
 
-        memos.push(
+        s_memos.push(
             Memo(msg.sender, _name, _message, msg.value, block.timestamp)
         );
 
@@ -67,7 +67,7 @@ contract BuyCoffee {
      * Owner of the contract can withdraw all the funds
      */
     function withdraw() public onlyOwner {
-        (bool success, ) = owner.call{value: address(this).balance}("");
+        (bool success, ) = i_owner.call{value: address(this).balance}("");
         require(success);
     }
 }
