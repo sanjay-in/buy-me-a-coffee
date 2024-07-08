@@ -57,4 +57,12 @@ contract BuyCoffee {
             block.timestamp
         );
     }
+
+    /**
+     * Owner of the contract can withdraw all the funds
+     */
+    function withdraw() public onlyOwner {
+        (bool success, ) = owner.call{value: address(this).balance}("");
+        require(success);
+    }
 }
