@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: SEE LICENSE IN LICENSE
 pragma solidity ^0.8.8;
 
+// Errors
 error BuyCoffee__NotEnoughMoneyTBuyCoffee();
 error BuyCoffee__NotOwner();
 
@@ -13,6 +14,7 @@ contract BuyCoffee {
         uint256 timestamp;
     }
 
+    // Events
     event CoffeeBought(
         address indexed from,
         string name,
@@ -21,6 +23,7 @@ contract BuyCoffee {
         uint256 timestamp
     );
 
+    // State variables
     address payable owner;
     Memo[] public memos;
 
@@ -28,6 +31,7 @@ contract BuyCoffee {
         owner = payable(msg.sender);
     }
 
+    // Modifiers
     modifier onlyOwner() {
         if (msg.sender == owner) revert BuyCoffee__NotOwner();
         _;
