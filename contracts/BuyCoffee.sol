@@ -2,6 +2,7 @@
 pragma solidity ^0.8.8;
 
 error BuyCoffee__NotEnoughMoneyTBuyCoffee();
+error BuyCoffee__NotOwner();
 
 contract BuyCoffee {
     struct Memo {
@@ -28,7 +29,7 @@ contract BuyCoffee {
     }
 
     modifier onlyOwner() {
-        msg.sender == owner;
+        if (msg.sender == owner) revert BuyCoffee__NotOwner();
         _;
     }
 
