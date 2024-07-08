@@ -27,6 +27,11 @@ contract BuyCoffee {
         owner = payable(msg.sender);
     }
 
+    modifier onlyOwner() {
+        msg.sender == owner;
+        _;
+    }
+
     /**
      * Buys coffee for the owner
      * @param _name name of the purchaser of coffee
