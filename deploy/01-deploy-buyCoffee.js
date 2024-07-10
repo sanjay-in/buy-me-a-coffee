@@ -1,4 +1,5 @@
 const { network } = require("hardhat");
+const { developmentChains } = require("../helper-hardhat-config");
 const { verify } = require("../utils/verify");
 
 module.exports = async ({ getNamedAccounts, deployments }) => {
@@ -19,7 +20,9 @@ module.exports = async ({ getNamedAccounts, deployments }) => {
 
   log(`BuyMeACoffee deployed at ${buyCoffee.address}`);
 
-  await verify(buyCoffee.address, []);
+  if (!developmentChains.includes(network.name)) {
+    await verify(buyCoffee.address, []);
+  }
 };
 
 module.exports.tags = ["all", "buyCoffee"];
