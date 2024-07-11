@@ -70,4 +70,13 @@ contract BuyCoffee {
         (bool success, ) = i_owner.call{value: address(this).balance}("");
         require(success);
     }
+
+    // Getter functions
+
+    /**
+     * Returns the address of the contract owner
+     */
+    function getOwner() public view returns(address) {
+        return i_owner;
+    } 
 }
