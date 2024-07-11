@@ -33,7 +33,7 @@ contract BuyCoffee {
 
     // Modifiers
     modifier onlyOwner() {
-        if (msg.sender == i_owner) revert BuyCoffee__NotOwner();
+        if (msg.sender != i_owner) revert BuyCoffee__NotOwner();
         _;
     }
 
@@ -78,5 +78,9 @@ contract BuyCoffee {
      */
     function getOwner() public view returns(address) {
         return i_owner;
+    } 
+
+    function getMemo(uint256 _index) public view returns(Memo memory) {
+        return s_memos[_index];
     } 
 }
