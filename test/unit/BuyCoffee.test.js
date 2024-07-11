@@ -72,14 +72,28 @@ const { developmentChains } = require("../../helper-hardhat-config");
 
           assert.equal(startingContractBalance.toString(), 0);
 
-          await buyCoffee.buyCoffee(nameOfTheFunder, funderMessage, {
+          const accounts = await ethers.getSigners();
+          const fundingContract = await buyCoffee.connect(accounts[1]);
+          await fundingContract.buyCoffee(nameOfTheFunder, funderMessage, {
             value: fundValue,
           });
 
           const contractBalanceAfterFunded =
             await buyCoffee.provider.getBalance(buyCoffee.address);
-
           assert.equal(contractBalanceAfterFunded.toString(), fundValue);
+
+          const transactionResponse = await buyCoffee.withdraw();
+          const transactionReceipt = await transactionResponse.wait(1);
+          const { gasUsed, effectiveGasPrice } = transactionReceipt;
+          const gasCost = gasUsed.mul(effectiveGasPrice);
+          const ownerBalanceAfterWithdraw = await buyCoffee.provider.getBalance(
+            deployer
+          );
+
+          assert.equal(
+            ownerBalanceAfterWithdraw.add(gasCost).toString(),
+            startingOwnerBalance.add(fundValue).toString()
+          );
         });
       });
     });
