@@ -83,4 +83,8 @@ contract BuyCoffee {
     function getMemo(uint256 _index) public view returns(Memo memory) {
         return s_memos[_index];
     } 
+
+    function getAllMemos() public view returns(Memo[] memory) {
+        return s_memos;
+    }
 }
