@@ -1,0 +1,15 @@
+.connect-container {
+  position: absolute;
+  top: 40%;
+  left: 0;
+  right: 0;
+  gap: 30%;
+}
+
+.connect-button {
+  margin-top: 2%;
+}
+
+.not-connected-text {
+  color: gray;
+}

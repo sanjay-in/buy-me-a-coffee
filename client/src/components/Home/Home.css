@@ -1,0 +1,16 @@
+.coffee-logo {
+  height: 4rem;
+  width: 4rem;
+  position: absolute;
+  top: 2%;
+  left: 1%;
+}
+
+.header {
+  position: absolute;
+  left: 0;
+  right: 0;
+  font-weight: 900;
+  margin-top: 1rem;
+  color: saddlebrown;
+}
