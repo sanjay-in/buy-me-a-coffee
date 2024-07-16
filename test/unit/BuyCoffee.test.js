@@ -96,4 +96,45 @@ const { developmentChains } = require("../../helper-hardhat-config");
           );
         });
       });
+
+      describe("getAllMemos", () => {
+        it("checks to see if we recieve all memos", async () => {
+          const [deployer, account1, account2, account3] =
+            await ethers.getSigners();
+
+          const account1Name = "A";
+          const account2Name = "B";
+          const account3Name = "C";
+          const account1Msg = "This is account 1 msg";
+          const account2Msg = "This is account 2 msg";
+          const account3Msg = "This is account 3 msg";
+          const account1Amount = ethers.utils.parseEther("0.01");
+          const account2Amount = ethers.utils.parseEther("0.001");
+          const account3Amount = ethers.utils.parseEther("0.51");
+
+          await buyCoffee
+            .connect(account1)
+            .buyCoffee(account1Name, account1Msg, { value: account1Amount });
+          await buyCoffee
+            .connect(account2)
+            .buyCoffee(account2Name, account2Msg, { value: account2Amount });
+          await buyCoffee
+            .connect(account3)
+            .buyCoffee(account3Name, account3Msg, { value: account3Amount });
+
+          const memos = await buyCoffee.getAllMemos();
+
+          assert.equal(memos[0].name, account1Name);
+          assert.equal(memos[0].message, account1Msg);
+          assert.equal(memos[0].amount.toString(), account1Amount.toString());
+
+          assert.equal(memos[1].name, account2Name);
+          assert.equal(memos[1].message, account2Msg);
+          assert.equal(memos[1].amount.toString(), account2Amount.toString());
+
+          assert.equal(memos[2].name, account3Name);
+          assert.equal(memos[2].message, account3Msg);
+          assert.equal(memos[2].amount.toString(), account3Amount.toString());
+        });
+      });
     });
