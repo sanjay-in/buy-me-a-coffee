@@ -49,7 +49,7 @@ const BuyCoffee = () => {
         </tr>
       </tbody>
     </Table>
-    <button className='view-messages'><i class="fa fa-expand" aria-hidden="true"></i></button>
+    <button className='view-messages'><i className="fa fa-expand" aria-hidden="true"></i></button>
     </div>
 
     </div>

@@ -13,3 +13,8 @@
 .not-connected-text {
   color: gray;
 }
+
+.install-metamask-title {
+  color: #dbc1ac;
+  font-weight: 600;
+}
