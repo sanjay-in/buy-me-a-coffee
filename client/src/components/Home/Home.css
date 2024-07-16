@@ -16,9 +16,13 @@
   height: 20rem;
   width: 20rem;
   position: absolute;
-  top: 25%;
+  top: 10%;
   left: 2%;
-  /* transform: rotate(30deg); */
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
 }
 
 .header {
