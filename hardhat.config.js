@@ -28,6 +28,7 @@ module.exports = {
   },
   etherscan: {
     apiKey: ETHERSCAN_API_KEY,
+    customChains: [],
   },
   gasReporter: {
     enabled: true,

@@ -11,6 +11,8 @@ import BuyCoffee from "../BuyCoffee/BuyCoffee";
 const Home = () => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isMetamaskExtenstion, setIsMetamaskExtention] = useState(true);
+
+  const contractAddress = 0x108Ad80b31f2e0518C72dA5f3E18ef176b8b33cE
   const connectWallet = async () => {
     try {
       if (window.ethereum) {
