@@ -1,0 +1,45 @@
+.buy-coffee-container {
+  width: 30%;
+  position: absolute;
+  top: 20%;
+  left: 50%;
+  translate: calc(-50%);
+}
+
+.textarea {
+  resize: none;
+}
+
+.field {
+  color: #6f4e37;
+  background-color: transparent;
+  border-color: rgba(139, 69, 19, 0.463);
+}
+.field:focus {
+  color: #6f4e37;
+  border-color: #ece0d1;
+  box-shadow: 0 0 10px #ece0d1;
+  background-color: transparent;
+}
+
+.field::placeholder {
+  color: grey;
+  opacity: 0.75; /* Firefox */
+}
+
+.buy-coffee-button {
+  background-color: #6f4e37;
+  color: #ece0d1;
+  border: none;
+  transition: all 0.2s ease-out;
+}
+
+.buy-coffee-button:hover {
+  background-color: #967259;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #ece0d1;
+}
+
+.fa-coffee {
+  margin-left: 5px;
+}

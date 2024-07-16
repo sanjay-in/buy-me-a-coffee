@@ -1,15 +1,17 @@
-import Logo from "../../assets/frappe.png"
+import FrappeLogo from "../../assets/frappe.png"
+import CoffeeLogo from "../../assets/coffee1.png"
 import "./Home.css"
 import ConnectMetamask from "../ConnectMetamask/ConnectMetamask";
+import BuyCoffee from "../BuyCoffee/BuyCoffee";
 
 const Home = () => {
     return(
         <div>
-            <div className="logo-container">
-            <img className="coffee-logo" src={Logo}/>
-            </div>
+            <img className="frappe-logo" src={FrappeLogo}/>
+            <img className="coffee-logo" src={CoffeeLogo}/>
             <h2 className="header">Buy a Coffee</h2>
-            <ConnectMetamask />
+            {/* <ConnectMetamask /> */}
+            <BuyCoffee />
         </div>
     )
 }

@@ -1,15 +1,31 @@
-.coffee-logo {
-  height: 4rem;
-  width: 4rem;
+.frappe-logo {
+  height: 20rem;
+  width: 20rem;
   position: absolute;
-  top: 2%;
-  left: 1%;
+  top: 10%;
+  right: -8%;
+  transform: rotate(-30deg);
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.coffee-logo {
+  height: 20rem;
+  width: 20rem;
+  position: absolute;
+  top: 25%;
+  left: 2%;
+  /* transform: rotate(30deg); */
 }
 
 .header {
   position: absolute;
-  left: 0;
-  right: 0;
+  width: fit-content;
+  left: 50%;
+  translate: calc(-50%);
   font-weight: 900;
   margin-top: 1rem;
   color: saddlebrown;
