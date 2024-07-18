@@ -32,12 +32,19 @@
   color: #ece0d1;
   border: none;
   transition: all 0.2s ease-out;
+  width: 9rem;
 }
 
-.buy-coffee-button:hover {
+.buy-coffee-button:hover:not([disabled]) {
   background-color: #967259;
   transform: scale(1.1);
   box-shadow: 0 0 10px #ece0d1;
+}
+
+.buy-coffee-button:disabled {
+  background-color: #967259;
+  opacity: 0.6;
+  cursor: default;
 }
 
 .fa-coffee {
