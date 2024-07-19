@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { ethers } from "ethers";
+import { Contract, ethers } from "ethers";
 import Modal from "../Modal/Modal";
 import "./Home.css";
 import FrappeLogo from "../../assets/frappe.png";
@@ -14,6 +14,7 @@ const Home = () => {
   const [isMetamaskExtenstionError, setIsMetamaskExtentionError] = useState(false);
   const [isBuyingCoffeeError, setIsBuyingCoffeeError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [memos, setMemos] = useState();
 
   const contractAddress = "0x108Ad80b31f2e0518C72dA5f3E18ef176b8b33cE";
 
@@ -52,14 +53,17 @@ const Home = () => {
     e.preventDefault();
     try {
       if (window.ethereum) {
-        // const provider = new ethers.BrowserProvider(window.ethereum);
-        // const signer = await provider.getSigner();
-        // const buyMeACoffe = new ethers.Contract(contractAddress, ABI, signer);
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const buyMeACoffe = new Contract(contractAddress, ABI, signer);
 
-
+        const coffeeTxn = await buyMeACoffe.buyCoffee(name, message, { value: ethers.parseEther(amount) });
+        coffeeTxn.wait();
+        setIsSuccess(true);
       }
     } catch (error) {
       setIsBuyingCoffeeError(true);
+      setIsBuyingCoffee(false);
       console.log(error);
     }
   };
@@ -69,9 +73,10 @@ const Home = () => {
       if (window.ethereum) {
         const provider = new ethers.BrowserProvider(window.ethereum);
         const signer = await provider.getSigner();
-        const buyMeACoffee = new ethers.Contract(contractAddress, ABI, signer);
+        const buyMeACoffee = new Contract(contractAddress, ABI, signer);
         const memos = await buyMeACoffee.getAllMemos();
-        console.log("buyMeACoffee", buyMeACoffee);
+        console.log("memos", memos);
+        setMemos(memos);
       }
     } catch (error) {
       console.log(error);
@@ -84,7 +89,7 @@ const Home = () => {
     } else if (modalName === "buyCoffeeError") {
       setIsBuyingCoffeeError(false);
     } else if (modalName === "success") {
-        window.location.reload();
+      window.location.reload();
     }
   };
 
@@ -98,7 +103,7 @@ const Home = () => {
       <img className="coffee-logo" src={CoffeeLogo} />
       <h2 className="header">Buy a Coffee</h2>
       {isWalletConnected ? (
-        <BuyCoffee isBuyingCoffee={isBuyingCoffee} onClick ={buyCoffee}/>
+        <BuyCoffee isBuyingCoffee={isBuyingCoffee} onClick={buyCoffee} memos={memos} />
       ) : (
         <ConnectMetamask onClick={connectWalletBtn} />
       )}
@@ -118,13 +123,15 @@ const Home = () => {
           title="Transaction Error"
           message="There was an error while transaction. Please try again."
         />
-      ) : isSuccess ? <Modal
-      show={isSuccess}
-      onClose={handleModalOnClose}
-      type="success"
-      title="Thank You!"
-      message="I'm grateful for your generosity in contributing. Thank you for your support🤝"
-    /> : null}
+      ) : isSuccess ? (
+        <Modal
+          show={isSuccess}
+          onClose={handleModalOnClose}
+          type="success"
+          title="Transaction Successful✅"
+          message="I'm grateful for your generosity in contributing. Thank you for your support🤝"
+        />
+      ) : null}
     </div>
   );
 };

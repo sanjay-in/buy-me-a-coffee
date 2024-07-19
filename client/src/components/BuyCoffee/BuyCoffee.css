@@ -51,10 +51,26 @@
   margin-left: 5px;
 }
 
+.loading-table,
+.no-history-message {
+  position: absolute;
+  top: 65%;
+  left: 50%;
+  translate: calc(-50%);
+}
+
+.loading-history-message,
+.no-history-message {
+  margin-top: 5%;
+  color: gray;
+  opacity: 0.5;
+}
+
 .history-table {
   position: absolute;
   top: 60%;
-  width: 60%;
+  width: 70%;
+  max-width: 70%;
   left: 50%;
   translate: calc(-50%);
   display: flex;
@@ -77,4 +93,10 @@
 
 .view-messages:hover {
   border-color: rgba(139, 69, 19, 0.463);
+}
+
+.fa-clipboard {
+  margin-left: 10px;
+  cursor: pointer;
+  color: #967259;
 }
