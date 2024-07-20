@@ -28,7 +28,7 @@
 }
 
 .buy-coffee-button {
-  background-color: #6f4e37;
+  background-color: #967259;
   color: #ece0d1;
   border: none;
   transition: all 0.2s ease-out;
@@ -36,7 +36,7 @@
 }
 
 .buy-coffee-button:hover:not([disabled]) {
-  background-color: #967259;
+  background-color: #6f4e37;
   transform: scale(1.1);
   box-shadow: 0 0 10px #ece0d1;
 }
@@ -59,6 +59,11 @@
   background-color: #fcd12a;
   transform: scale(1.1);
   box-shadow: 0 0 10px #ece0d1;
+}
+
+.withdraw-button:disabled {
+  opacity: 0.6;
+  cursor: default;
 }
 
 .fa-coffee,
@@ -93,6 +98,10 @@
 }
 
 .history-table > table > thead > tr > th {
+  color: #967259;
+}
+
+.history-table > table > tbody > tr > td {
   color: #6f4e37;
 }
 
