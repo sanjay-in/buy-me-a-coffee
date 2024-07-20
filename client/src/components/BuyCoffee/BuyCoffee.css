@@ -47,7 +47,22 @@
   cursor: default;
 }
 
-.fa-coffee {
+.withdraw-button {
+  background-color: #ffbf00;
+  color: white;
+  border: none;
+  transition: all 0.2s ease-out;
+  width: 9rem;
+}
+
+.withdraw-button:hover:not([disabled]) {
+  background-color: #fcd12a;
+  transform: scale(1.1);
+  box-shadow: 0 0 10px #ece0d1;
+}
+
+.fa-coffee,
+.fa-money {
   margin-left: 5px;
 }
 

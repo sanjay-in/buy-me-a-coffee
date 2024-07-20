@@ -1,10 +1,10 @@
 .frappe-logo {
-  height: 20rem;
-  width: 20rem;
+  height: 40%;
   position: absolute;
   top: 10%;
   right: -8%;
   transform: rotate(-30deg);
+  background-attachment: fixed;
   opacity: 0.8;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -14,11 +14,10 @@
 }
 
 .coffee-logo {
-  height: 20rem;
-  width: 20rem;
+  height: 30%;
   position: absolute;
-  bottom: -10%;
-  left: -5%;
+  bottom: -5%;
+  left: -3%;
   transform: rotate(30deg);
   opacity: 0.8;
   -webkit-user-select: none;

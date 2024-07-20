@@ -11,10 +11,14 @@ import BuyCoffee from "../BuyCoffee/BuyCoffee";
 const Home = () => {
   const [isWalletConnected, setIsWalletConnected] = useState(false);
   const [isBuyingCoffee, setIsBuyingCoffee] = useState(false);
+  const [isWithdrawing, setIsWithdrawing] = useState(false);
   const [isMetamaskExtenstionError, setIsMetamaskExtentionError] = useState(false);
   const [isBuyingCoffeeError, setIsBuyingCoffeeError] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [isWithdrawn, setIsWithdrawn] = useState(false);
   const [memos, setMemos] = useState();
+  const [isOwner, setIsOwner] = useState(false);
+  const [isFirstRender, setIsFirstRender] = useState(true);
 
   const contractAddress = "0x108Ad80b31f2e0518C72dA5f3E18ef176b8b33cE";
 
@@ -24,7 +28,6 @@ const Home = () => {
         const accounts = await window.ethereum.request({
           method: "eth_accounts",
         });
-        console.log("accounts: ", accounts[0]);
         setIsWalletConnected(true);
       }
     } catch (error) {
@@ -40,7 +43,6 @@ const Home = () => {
         const accounts = await window.ethereum.request({
           method: "eth_requestAccounts",
         });
-        console.log("accounts", accounts[0]);
         setIsWalletConnected(true);
       }
     } catch (error) {
@@ -58,8 +60,7 @@ const Home = () => {
         const buyMeACoffe = new Contract(contractAddress, ABI, signer);
 
         const coffeeTxn = await buyMeACoffe.buyCoffee(name, message, { value: ethers.parseEther(amount) });
-        coffeeTxn.wait();
-        setIsSuccess(true);
+        coffeeTxn.wait().then(() => setIsSuccess(true));
       }
     } catch (error) {
       setIsBuyingCoffeeError(true);
@@ -75,8 +76,63 @@ const Home = () => {
         const signer = await provider.getSigner();
         const buyMeACoffee = new Contract(contractAddress, ABI, signer);
         const memos = await buyMeACoffee.getAllMemos();
-        console.log("memos", memos);
-        setMemos(memos);
+        let memoArray = [];
+        memos &&
+          memos.forEach((memo) => {
+            const [address, name, message, amount, timestamp] = memo;
+            memoArray.push({
+              address,
+              name,
+              message,
+              amount,
+              timestamp,
+            });
+          });
+        const sortedMemo =
+          memoArray &&
+          memoArray.sort((a, b) => {
+            if (a.timestamp < b.timestamp) return -1;
+            if (a.timestamp > b.timestamp) return -1;
+            return 0;
+          });
+        setMemos(sortedMemo);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const getOwner = async () => {
+    try {
+      if (window.ethereum) {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const buyMeACoffee = new ethers.Contract(contractAddress, ABI, signer);
+        const contractOwner = await buyMeACoffee.getOwner();
+        if (contractOwner === signer.address) {
+          setIsOwner(true);
+        } else if (isOwner) {
+          setIsOwner(false);
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const withdraw = async () => {
+    setIsWithdrawing(true);
+    try {
+      if (window.ethereum) {
+        const provider = new ethers.BrowserProvider(window.ethereum);
+        const signer = await provider.getSigner();
+        const buyMeACoffe = new Contract(contractAddress, ABI, signer);
+
+        const coffeeTxn = await buyMeACoffe.withdraw();
+        coffeeTxn.wait().then(() => {
+          setIsWithdrawing(false);
+          setIsWithdrawn(true);
+        });
       }
     } catch (error) {
       console.log(error);
@@ -90,20 +146,36 @@ const Home = () => {
       setIsBuyingCoffeeError(false);
     } else if (modalName === "success") {
       window.location.reload();
+    } else if (modalName === "withdraw") {
+      setIsWithdrawn(false);
     }
   };
 
   useEffect(() => {
-    connectWallet();
-    getAllMemos();
-  }, []);
+    if (isFirstRender) {
+      connectWallet();
+      getOwner();
+      getAllMemos();
+      setIsFirstRender(false);
+    }
+    window.ethereum?.on("accountsChanged", () => {
+      getOwner();
+    });
+  }, [isOwner]);
   return (
     <div>
       <img className="frappe-logo" src={FrappeLogo} />
       <img className="coffee-logo" src={CoffeeLogo} />
       <h2 className="header">Buy a Coffee</h2>
       {isWalletConnected ? (
-        <BuyCoffee isBuyingCoffee={isBuyingCoffee} onClick={buyCoffee} memos={memos} />
+        <BuyCoffee
+          isBuyingCoffee={isBuyingCoffee}
+          onClick={buyCoffee}
+          memos={memos}
+          isOwner={isOwner}
+          isWithdrawing={isWithdrawing}
+          withdraw={withdraw}
+        />
       ) : (
         <ConnectMetamask onClick={connectWalletBtn} />
       )}
@@ -130,6 +202,14 @@ const Home = () => {
           type="success"
           title="Transaction Successful✅"
           message="I'm grateful for your generosity in contributing. Thank you for your support🤝"
+        />
+      ) : isWithdrawn ? (
+        <Modal
+          show={isWithdrawn}
+          onClose={handleModalOnClose}
+          type="withdraw"
+          title="Success✅"
+          message="Funds have been transfered to your account. Please check your account balance to confirm."
         />
       ) : null}
     </div>
