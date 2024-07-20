@@ -20,7 +20,7 @@ const Home = () => {
   const [isOwner, setIsOwner] = useState(false);
   const [isFirstRender, setIsFirstRender] = useState(true);
 
-  const contractAddress = "0x108Ad80b31f2e0518C72dA5f3E18ef176b8b33cE";
+  const contractAddress = import.meta.env.VITE_CONTRACT_ADDRESS;
 
   const connectWallet = async () => {
     try {
