@@ -21,7 +21,14 @@ const BuyCoffee = ({ isBuyingCoffee, onClick, memos, isOwner, isWithdrawing, wit
   return (
     <div>
       <Form className="buy-coffee-container" onSubmit={(e) => onClick(e, name, message, amount)}>
-        <Form.Control type="text" className="name-text field" placeholder="Name" value={name} onChange={(e) => setName(e.target.value)} />
+        <Form.Control
+          type="text"
+          className="name-text field"
+          placeholder="Name"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          disabled={isOwner}
+        />
         <br />
         <Form.Control
           type="number"
@@ -31,6 +38,7 @@ const BuyCoffee = ({ isBuyingCoffee, onClick, memos, isOwner, isWithdrawing, wit
           value={amount}
           step={0.00001}
           onChange={(e) => setAmount(e.target.value)}
+          disabled={isOwner}
         />
         <br />
         <Form.Control
@@ -40,6 +48,7 @@ const BuyCoffee = ({ isBuyingCoffee, onClick, memos, isOwner, isWithdrawing, wit
           placeholder="Message"
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          disabled={isOwner}
         />
         <br />
         {isOwner ? (
