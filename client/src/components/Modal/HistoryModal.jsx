@@ -1,16 +1,19 @@
 import React from "react";
 import { Modal, Table, Button } from "react-bootstrap";
 import { ethers } from "ethers";
+import "./HistoryModal.css";
 
 const HistoryModal = ({ memos, copyText, show, setOpenHistoryModal }) => {
   return (
     <Modal show={show} scrollable={true} onHide={() => setOpenHistoryModal(false)} size="xl" aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">Transaction History</Modal.Title>
+        <Modal.Title id="contained-modal-title-vcenter" className="history-modal-title">
+          Transaction History
+        </Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <Table striped bordered hover>
-          <thead>
+          <thead className="history-table-header">
             <tr>
               <th>Name</th>
               <th colSpan={2}>Message</th>
@@ -19,7 +22,7 @@ const HistoryModal = ({ memos, copyText, show, setOpenHistoryModal }) => {
               <th>Date</th>
             </tr>
           </thead>
-          <tbody>
+          <tbody className="history-table-body">
             {memos &&
               memos.map((memo, index) => {
                 let { address, name, message, amount, timestamp } = memo;
