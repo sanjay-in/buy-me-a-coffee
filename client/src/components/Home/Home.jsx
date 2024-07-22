@@ -25,13 +25,13 @@ const Home = () => {
   const connectWallet = async () => {
     try {
       if (window.ethereum) {
-        const accounts = await window.ethereum.request({
-          method: "eth_accounts",
+        const account = await window.ethereum.request({
+          method: "eth_requestAccounts",
         });
         setIsWalletConnected(true);
       }
     } catch (error) {
-      console.log("error");
+      console.log("error", error);
     }
   };
 
@@ -40,7 +40,7 @@ const Home = () => {
       if (!window.ethereum) {
         setIsMetamaskExtentionError(true);
       } else {
-        const accounts = await window.ethereum.request({
+        await window.ethereum.request({
           method: "eth_requestAccounts",
         });
         setIsWalletConnected(true);
@@ -158,10 +158,15 @@ const Home = () => {
       getAllMemos();
       setIsFirstRender(false);
     }
-    window.ethereum?.on("accountsChanged", () => {
-      getOwner();
+    window.ethereum?.on("accountsChanged", (accounts) => {
+      if (!memos && accounts.length > 0) {
+        getAllMemos();
+      }
+      if (accounts.length > 0) {
+        getOwner();
+      }
     });
-  }, [isOwner]);
+  }, [isOwner, isWalletConnected]);
   return (
     <div>
       <img className="frappe-logo" src={FrappeLogo} />
